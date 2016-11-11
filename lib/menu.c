@@ -2,10 +2,11 @@
 #include<stdlib.h>
 #include<termio.h>
 #include"getch.h"
-char longtxt[2][20] = {"-> 1. long text \n", "   1. long text\n"};
-char shorttxt[2][20] = {"-> 2. short text \n", "   2. short text\n"};
+
 int menu()
 {
+	char longtxt[2][20] = {"-> 1. long text \n", "   1. long text\n"};
+	char shorttxt[2][20] = {"-> 2. short text \n", "   2. short text\n"};
 	int lt=0,st=1;
 	unsigned char n;
 	printf("%s%s",longtxt[lt],shorttxt[st]);
