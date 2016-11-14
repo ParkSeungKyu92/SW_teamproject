@@ -1,6 +1,7 @@
 CC = gcc
 OUTPUT = libfuncs.a
-OBJ = getch.o menu.o menu_long.o
+OBJ = getch_.o menu.o menu_long.o long_text.o
+
 $(OUTPUT) : $(OBJ)
 	ar rv $(OUTPUT) $(OBJ)
 %.o : %.c

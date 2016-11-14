@@ -1,6 +1,6 @@
 #include<termio.h>
 
-int getch(void)
+int getch_(void)
 {
     int ch;
 

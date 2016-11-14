@@ -1,5 +1,5 @@
 #include<stdio.h>
-#include"getch.h"
+#include"getch_.h"
 int menu_long()
 {
 	char name[6][30] = {"Gulliver's Travels", "Narcissus","Rapunzel"
@@ -21,12 +21,12 @@ int menu_long()
 	}
 	while(1)
 	{
-		n = getch();
+		n = getch_();
 		if(n == 27) // ESC 
 		{
 			return -1;
 		}
-		if(n == 10 || n == 13) // enter
+		if(n== 10 || n == 13) // enter
 		{
 			return cnt;
 		}

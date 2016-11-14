@@ -1,7 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<termio.h>
-#include"getch.h"
+#include"getch_.h"
 
 int menu()
 {
@@ -13,7 +13,7 @@ int menu()
 	while(1)
 	{	
 		
-		n = getch();
+		n = getch_();
  		
 		if(n == 13 || n == 10)
 		{

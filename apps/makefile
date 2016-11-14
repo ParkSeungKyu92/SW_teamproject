@@ -4,7 +4,7 @@ CC = gcc
 SOURCE = app.c
 
 $(OUTPUT) : $(OBJ)
-	$(CC) -o $(OUTPUT) $(OBJ) -L../lib -lfuncs
+	$(CC) -o $(OUTPUT) $(OBJ) -L../lib -lfuncs -lcurses
 $(OBJ) : $(SOURCE)
 	$(CC) -c -I../include $(SOURCE) -o $(OBJ)
 clean :
