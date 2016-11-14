@@ -6,15 +6,13 @@
 #define ESC 0x1b
 
 char c;
-char buffer[80];
+char buffer[10];
 	
 void changeRed(char c)
 {
-	start_color();
-	init_pair(1,COLOR_RED, COLOR_BLACK);
-	attron(COLOR_PAIR(1));
+	//attroffset(A_BOLD);
+	attrset(COLOR_PAIR(1));
 	addch(c);
-	attroff(COLOR_PAIR(1));
 	refresh();
 	return ;
 }
@@ -24,6 +22,10 @@ int main ()
 
 	int i=0;
 	int j;
+
+	start_color();
+	init_pair(1,COLOR_RED, COLOR_BLACK);
+
 	while(c != ESC)
 	{
 		c=getchar();
@@ -41,6 +43,6 @@ int main ()
 			i++;
 		}
 	}
-	printf("%s\n",buffer);
+	//printf("%s[1;31m",buffer);
 	return 0;
 }
