@@ -28,7 +28,7 @@ void long_text(int n)
 		int count=0;
 		move(0,0);
 		refresh();
-		while(fscanf(fp,"%c",&ch) != EOF)
+		while(fscanf(fp,"%c",&ch) != EOF) // move
 		{
 			buf[len++] = ch;
 			if(ch == '\n')
@@ -45,18 +45,23 @@ void long_text(int n)
 		line = 1;
 		move(line,0);
 		refresh();
-		while(ch != ESC)
+		while(ch != ESC) // output
 		{	
 			
-			ch = getchar();
-			if(ch == 13)
+			ch = getch_();
+			if(ch == 13) // enter
 			{
 				line+=2;
 				move(line,0);
 				printf("\r");
 				refresh();
 			}
-			else
+			else if(ch == 127) // back space
+			{
+				printf("\b ");
+				printf("\b");
+			}
+			else // print
 			{	
 				
 				printf("%c",ch);
