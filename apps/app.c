@@ -49,7 +49,6 @@ int main()
 			refresh();
 			short_text();
 			endwin();
-			break;
 		}
 	}
 	return 0;

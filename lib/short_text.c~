@@ -40,7 +40,6 @@ void short_text()
 				refresh();
 					
 			}
-			clear();
 		}
 		line = 1;
 		move(line,0);

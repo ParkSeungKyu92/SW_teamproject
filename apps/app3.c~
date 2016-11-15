@@ -43,6 +43,6 @@ int main ()
 			i++;
 		}
 	}
-	printf("%s[1;31m",buffer);
+	//printf("%s[1;31m",buffer);
 	return 0;
 }
