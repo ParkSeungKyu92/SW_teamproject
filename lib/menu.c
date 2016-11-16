@@ -2,7 +2,7 @@
 #include<stdlib.h>
 #include<termio.h>
 #include"getch_.h"
-
+#define ESC 0x1b
 int menu()
 {
 	char longtxt[2][20] = {"-> 1. long text \n", "   1. long text\n"};
@@ -19,19 +19,23 @@ int menu()
 		{
 			return lt<st ? 1 : 2;
 		}
-		if(n == 'w')
+		else if(n == 'w')
 		{
 			system("clear");
 			lt=++lt%2;
 			st=++st%2;
 			printf("%s%s",longtxt[lt],shorttxt[st]);
 		}
-		if(n == 's')
+		else if(n == 's')
 		{
 			system("clear");
 			lt=++lt%2;
 			st=++st%2;
 			printf("%s%s",longtxt[lt],shorttxt[st]);
+		}
+		else if(n == ESC)
+		{
+			return -1;
 		}	
 			
 	}

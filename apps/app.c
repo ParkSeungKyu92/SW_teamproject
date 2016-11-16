@@ -24,7 +24,12 @@ int main()
 	{
 		system("clear");
 		num = menu();
-		if(num == 1) //long text
+		if(num == -1)
+		{
+			system("clear");
+			break;
+		}
+		else if(num == 1) //long text
 		{
 			level = menu_long();
 			if(level == -1)
@@ -51,6 +56,8 @@ int main()
 			endwin();
 			break;
 		}
+		system("clear");
+		
 	}
 	return 0;
 }

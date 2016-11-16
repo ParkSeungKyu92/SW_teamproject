@@ -7,10 +7,10 @@
 
 #define ESC 0x1b
 
-char buf[100000];
 
 void long_text(int n)
 {
+	char buf[100][70] = {0,};
 	char name[6][50] = {"Gulliver's Travels.txt", "Narcissus.txt","Rapunzel.txt"
 	,"The Elves and the Shoemaker.txt", "The Selfish Giant.txt", "The Wind and the Sun.txt"};
 	FILE *fp = fopen(name[n],"r");
@@ -22,53 +22,154 @@ void long_text(int n)
 	}
 	else
 	{	
+		int cnt = 0;		
+		int sh = 0;
 		int line=0;
-		char ch = 0;
-		int i=0,len=0;
+		char ch = 0,as;
+		int i=0,j=0;
+		int col=0,row=0;
 		int count=0;
-		move(0,0);
-		refresh();
-		while(fscanf(fp,"%c",&ch) != EOF) // move
+		while(fscanf(fp,"%c",&ch) != EOF) // buffer set
 		{
-			buf[len++] = ch;
-			if(ch == '\n')
+			if(row == 0 && ch == 13) // title set
 			{
-				line+=2;
-				move(line,0);
-				refresh();
+				buf[row][col] = 0;				
+				row++;
+				col = 0;
+			}
+			else if(col==69) // text line
+			{
+				
+				buf[row][col] = 0; //str last NULL
+				row++;
+				col=0;
+				if(ch == 13)
+				{
+					buf[row][col] = ' ';
+					col++;
+				}
+				else
+				{
+					buf[row][col] = ch;
+					col++;
+				}
 
+				
+			}
+			else 
+			{	
+				if(ch == 13)
+				{
+					buf[row][col] = ' ';
+					col++;
+				}
+				else
+				{
+					buf[row][col] = ch;
+					col++;
+				}
+				
+			}
+		}
+		row++;
+		clear();
+		line = 0;
+
+		for(i=0;i<row;i++)
+		{
+			move(line,0);
+			refresh();
+			if(i==0)
+			{
+				addstr(buf[i]);
+				refresh();
 			}
 			else
-				addch(ch);refresh();
-			
-		}
-		line = 1;
-		move(line,0);
-		refresh();
-		while(ch != ESC) // output
-		{	
-			
-			ch = getch_();
-			if(ch == 13) // enter
 			{
-				line+=2;
-				move(line,0);
-				printf("\r");
+				addstr(buf[i]);
 				refresh();
 			}
-			else if(ch == 127) // back space
+			line+=2;
+			
+			if(i%12==11)
 			{
-				printf("\b ");
-				printf("\b");
+				line=1;
+				move(line,0);
+				count = 0;sh = 0;
+				refresh();
+				while(sh<12)
+				{
+					ch = getch_();
+					if(ch == ESC)
+						return;
+					if(ch == 13 || count == 69) // enter
+					{
+						sh++;
+						line+=2;count=0;
+						move(line,0);
+						printf("\r");
+						refresh();
+					}
+					else if(ch == 127) // back space
+					{
+						printf("\b ");
+						printf("\b");
+						refresh();
+						count--;
+					}
+					else // print
+					{	
+						printf("%c",ch);
+						refresh();
+						count++;
+					}
+				}
+				clear();
+				line = 0;	
+
 			}
-			else // print
-			{	
-				
-				printf("%c",ch);
+			else if((i+1) == row)
+			{
+				line=1;
+				move(line,0);
+				count = 0;sh = 0;
+				refresh();
+				while(sh<row-(i+1))
+				{
+					ch = getch_();
+					if(ch == ESC)
+						return;
+					if(ch == 13 || count == 69) // enter
+					{
+						sh++;
+						line+=2;count=0;
+						move(line,0);
+						printf("\r");
+						refresh();
+					}
+					else if(ch == 127) // back space
+					{
+						printf("\b ");
+						printf("\b");
+						refresh();
+						count--;
+					}
+					else // print
+					{	
+						printf("%c",ch);
+						refresh();
+						count++;
+					}
+				}
+				clear();
+				line = 0;
+
 			}
-		
+
+
 			
 		}
+		fclose(fp);
 		endwin();
 				
 	}
