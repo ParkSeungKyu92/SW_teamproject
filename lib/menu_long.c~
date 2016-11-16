@@ -2,14 +2,13 @@
 #include"getch_.h"
 int menu_long()
 {
-	int i=0;
 	char name[6][30] = {"Gulliver's Travels", "Narcissus","Rapunzel"
 	,"The Elves and the Shoemaker", "The Selfish Giant", "The Wind and the Sun"};
 	char ch[] = "->";
 	char n;
 	char cnt = 0;
 	system("clear");
-	for(i=0;i<6;i++)
+	for(int i=0;i<6;i++)
 	{
 		if(cnt==i)
 		{
@@ -38,7 +37,7 @@ int menu_long()
 				cnt=5;
 			else
 				cnt=--cnt%6;
-			for(i=0;i<6;i++)
+			for(int i=0;i<6;i++)
 			{
 				if(cnt==i)
 				{
@@ -54,7 +53,7 @@ int menu_long()
 		{
 			system("clear");
 			cnt=++cnt%6;
-			for(i=0;i<6;i++)
+			for(int i=0;i<6;i++)
 			{
 				if(cnt==i)
 				{

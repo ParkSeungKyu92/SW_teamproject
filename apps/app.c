@@ -54,7 +54,6 @@ int main()
 			refresh();
 			short_text();
 			endwin();
-			break;
 		}
 		system("clear");
 		
