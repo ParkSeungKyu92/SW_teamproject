@@ -3,14 +3,15 @@
 #include<string.h>
 #include<curses.h>
 #include<signal.h>
+#include<string.h>
 
 
 #define ESC 0x1b
 
+char buf[500][100] = {0,};
 
 void long_text(int n)
 {
-	char buf[100][70] = {0,};
 	char name[6][50] = {"Gulliver's Travels.txt", "Narcissus.txt","Rapunzel.txt"
 	,"The Elves and the Shoemaker.txt", "The Selfish Giant.txt", "The Wind and the Sun.txt"};
 	FILE *fp = fopen(name[n],"r");
@@ -22,87 +23,48 @@ void long_text(int n)
 	}
 	else
 	{	
-		int cnt = 0;		
+		int page = 0;		
 		int sh = 0;
 		int line=0;
-		char ch = 0,as;
+		char ch = 0;
 		int i=0,j=0;
 		int col=0,row=0;
 		int count=0;
-		while(fscanf(fp,"%c",&ch) != EOF) // buffer set
+		while(!feof(fp)) // buffer set
 		{
-			if(row == 0 && ch == 13) // title set
+			fgets(buf[row],sizeof(buf[row]),fp);			
+			if(buf[row][strlen(buf[row])-1] == 13)
 			{
-				buf[row][col] = 0;				
-				row++;
-				col = 0;
-			}
-			else if(col==69) // text line
-			{
-				
-				buf[row][col] = 0; //str last NULL
-				row++;
-				col=0;
-				if(ch == 13)
-				{
-					buf[row][col] = ' ';
-					col++;
-				}
-				else
-				{
-					buf[row][col] = ch;
-					col++;
-				}
-
-				
-			}
-			else 
-			{	
-				if(ch == 13)
-				{
-					buf[row][col] = ' ';
-					col++;
-				}
-				else
-				{
-					buf[row][col] = ch;
-					col++;
-				}
-				
-			}
+				buf[row][strlen(buf[row])-1] = 0;
+			}			
+			row++;
 		}
-		row++;
-		clear();
-		line = 0;
-
+		
 		for(i=0;i<row;i++)
 		{
 			move(line,0);
 			refresh();
-			if(i==0)
-			{
-				addstr(buf[i]);
+			printf("\r%s",buf[i]);
+			line+=1;
+			if(i%11==10)
+			{	
+				page++;
+				move(line*2,50);
+				printw("(%d/%d)",page,(row-1)/11 + 1);
 				refresh();
-			}
-			else
-			{
-				addstr(buf[i]);
-				refresh();
-			}
-			line+=2;
-			
-			if(i%12==11)
-			{
+				
+				
+
 				line=1;
 				move(line,0);
-				count = 0;sh = 0;
+				count = 0;sh = i-10;
 				refresh();
-				while(sh<12)
+				while(sh<=i)
 				{
-					ch = getch_();
+					ch = getchar();
 					if(ch == ESC)
 						return;
-					if(ch == 13 || count == 69) // enter
+					if(ch == 13 || count+2 == strlen(buf[sh])) // enter
 					{
 						sh++;
 						line+=2;count=0;
@@ -114,12 +76,11 @@ void long_text(int n)
 					{
 						printf("\b ");
 						printf("\b");
-						refresh();
 						count--;
 					}
 					else // print
 					{	
-						printf("%c",ch);
+						addch(ch);
 						refresh();
 						count++;
 					}
@@ -130,16 +91,23 @@ void long_text(int n)
 			}
 			else if((i+1) == row)
 			{
+				page++;
+				move(line*2,50);
+				printw("(%d/%d)",page,(row-1)/11 + 1);
+				refresh();
+				
+								
+				
 				line=1;
 				move(line,0);
-				count = 0;sh = 0;
+				count = 0;sh = i-((row-1)%11);
 				refresh();
-				while(sh<row-(i+1))
+				while(sh<(row-1))
 				{
-					ch = getch_();
+					ch = getchar();
 					if(ch == ESC)
 						return;
-					if(ch == 13 || count == 69) // enter
+					if(ch == 13 || count+2 == strlen(buf[sh])) // enter
 					{
 						sh++;
 						line+=2;count=0;
@@ -162,15 +130,12 @@ void long_text(int n)
 					}
 				}
 				clear();
-				line = 0;
-
 			}
 
 
 			
 		}
 		fclose(fp);
-		endwin();
 				
 	}
 
