@@ -80,9 +80,17 @@ void long_text(int n)
 					}
 					else // print
 					{	
-						addch(ch);
-						refresh();
-						count++;
+						if(buf[sh][count]==ch)
+						{
+							printf("%c",ch);
+							count++;
+						}
+						else
+						{
+							printf("\033[0;31m%c",ch);
+							printf("\033[0m");
+							count++;
+						}
 					}
 				}
 				clear();

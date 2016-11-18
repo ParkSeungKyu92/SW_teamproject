@@ -4,6 +4,8 @@
 #include<curses.h>
 #include<signal.h>
 
+//
+#include"timer.h"
 #include"getch_.h"
 #include"menu.h"
 #include"menu_long.h"
@@ -42,7 +44,10 @@ int main()
 				initscr();
 				clear();
 				refresh();
+				stopwatch(1);
 				long_text(level);
+				stopwatch(0);
+				printf("time : %s",timerBuffer);
 				endwin();
 			}
 		}		
