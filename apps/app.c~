@@ -4,6 +4,8 @@
 #include<curses.h>
 #include<signal.h>
 
+//
+#include"timer.h"
 #include"getch_.h"
 #include"menu.h"
 #include"menu_long.h"
@@ -24,7 +26,12 @@ int main()
 	{
 		system("clear");
 		num = menu();
-		if(num == 1) //long text
+		if(num == -1)
+		{
+			system("clear");
+			break;
+		}
+		else if(num == 1) //long text
 		{
 			level = menu_long();
 			if(level == -1)
@@ -37,7 +44,10 @@ int main()
 				initscr();
 				clear();
 				refresh();
+				stopwatch(1);
 				long_text(level);
+				stopwatch(0);
+				printf("time : %s",timerBuffer);
 				endwin();
 			}
 		}		
@@ -49,8 +59,9 @@ int main()
 			refresh();
 			short_text();
 			endwin();
-			break;
 		}
+		system("clear");
+		
 	}
 	return 0;
 }
