@@ -77,7 +77,7 @@ void short_text()
  					{
 						sec = stopwatch(0);
  						move(line2*2,50);
-						printw("%d",sec);
+						printw("*time : %2d hour %2d min %2d sec *\n", 							secs / 3600, secs / 60 % 60,secs%60);
 							
 						refresh();
  
@@ -111,7 +111,7 @@ void short_text()
  				clear(); 
  				line = 0;	 
  				line2 = 0;
-				cnt=0;
+				
  
 			} 
 			else if((i+1) == row) 	
@@ -137,7 +137,7 @@ void short_text()
  					{
 						sec = stopwatch(0);
  						move(line2*2,50);
-						printw("%d",sec);	
+						printw("*time : %2d hour %2d min %2d sec *\n", 							secs / 3600, secs / 60 % 60,secs%60);	
 						refresh(); 						
 						sh++; 
  						line+=2;count=0; 
