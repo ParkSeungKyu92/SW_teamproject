@@ -10,7 +10,10 @@
 
 char buf[500][100] = {0,};
 
-void long_text(int n)
+extern int acc;
+extern int err;
+extern int typing;
+int long_text(int n)
 {
 	char name[6][50] = {"Gulliver's Travels.txt", "Narcissus.txt","Rapunzel.txt"
 	,"The Elves and the Shoemaker.txt", "The Selfish Giant.txt", "The Wind and the Sun.txt"};
@@ -23,13 +26,14 @@ void long_text(int n)
 	}
 	else
 	{	
-		int page = 0;		
-		int sh = 0;
-		int line=0;
-		char ch = 0;
-		int i=0,j=0;
+		int page = 0;	//page	
+		int sh = 0;  // line check
+		int line=0;  // line
+		char ch = 0; // buf
+		int i=0,j=0; 
 		int col=0,row=0;
-		int count=0;
+		int count=0; // ch count
+		int flag = 0;
 		while(!feof(fp)) // buffer set
 		{
 			fgets(buf[row],sizeof(buf[row]),fp);			
@@ -39,7 +43,7 @@ void long_text(int n)
 			}			
 			row++;
 		}
-		
+		err=acc=typing=0;
 		for(i=0;i<row;i++)
 		{
 			move(line,0);
@@ -63,7 +67,7 @@ void long_text(int n)
 				{
 					ch = getchar();
 					if(ch == ESC)
-						return;
+						return 0;
 					if(ch == 13 || count+2 == strlen(buf[sh])) // enter
 					{
 						sh++;
@@ -77,20 +81,31 @@ void long_text(int n)
 						printf("\b ");
 						printf("\b");
 						count--;
+						if(flag == 1)
+							acc--;
+						else
+							err--;
+						typing--;
 					}
 					else // print
 					{	
-						if(buf[sh][count]==ch)
+						if(buf[sh][count]==ch)// accurate
 						{
+							flag = 1;
 							printf("%c",ch);
 							count++;
+							acc++;
+							
 						}
-						else
+						else // error
 						{
+							flag = 0;
 							printf("\033[0;31m%c",ch);
 							printf("\033[0m");
 							count++;
+							err++;
 						}
+						typing++;
 					}
 				}
 				clear();
@@ -114,7 +129,7 @@ void long_text(int n)
 				{
 					ch = getchar();
 					if(ch == ESC)
-						return;
+						return 0;
 					if(ch == 13 || count+2 == strlen(buf[sh])) // enter
 					{
 						sh++;
@@ -129,15 +144,33 @@ void long_text(int n)
 						printf("\b");
 						refresh();
 						count--;
+						if(flag == 1)
+							acc--;
+						else
+							err--;
+						typing--;
 					}
 					else // print
 					{	
-						printf("%c",ch);
-						refresh();
-						count++;
+						if(buf[sh][count]==ch)// accurate
+						{
+							printf("%c",ch);
+							count++;
+							acc++;
+							
+						}
+						else // error
+						{
+							printf("\033[0;31m%c",ch);
+							printf("\033[0m");
+							count++;
+							err++;
+						}
+						typing++;
 					}
 				}
 				clear();
+	
 			}
 
 
@@ -146,6 +179,6 @@ void long_text(int n)
 		fclose(fp);
 				
 	}
-
+	return 1;
 }
 

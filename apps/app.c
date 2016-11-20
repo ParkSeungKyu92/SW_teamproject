@@ -11,17 +11,23 @@
 #include"menu_long.h"
 #include"long_text.h"
 #include"short_text.h"
-
+#include"var.h"
 #define ESC 0x1b
 
+extern int err;
+extern int acc;
+extern int typing;
 char name[6][30] = {"Gulliver's Travels", "Narcissus","Rapunzel"
 			,"The Elves and the Shoemaker", "The Selfish Giant", "The Wind and the Sun"};
 char ch[] = "->";
 
 int main()
 {
+	int comp = 0;
+	int secs = 0;
 	int num = 0;
 	int level = 0;
+	char temp;
 	while(1)
 	{
 		system("clear");
@@ -44,11 +50,14 @@ int main()
 				initscr();
 				clear();
 				refresh();
-				stopwatch(1);
-				long_text(level);
-				stopwatch(0);
-				printf("time : %s",timerBuffer);
-				endwin();
+				secs = stopwatch(1);
+				comp = long_text(level);
+				secs = stopwatch(0);
+				clear();refresh();endwin();
+				system("clear");
+				if(comp==1){				
+					result_long_text(secs);	temp = getch_();
+				}
 			}
 		}		
 		else if(num == 2) // short text

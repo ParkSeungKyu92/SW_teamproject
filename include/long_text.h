@@ -1,2 +1,2 @@
 #pragma once
-void long_text(int);
+int long_text(int);
