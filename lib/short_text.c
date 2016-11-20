@@ -4,7 +4,7 @@
 #include<curses.h> 
 #include<signal.h> 
 #include<string.h> 
- 
+#include "timer.h" 
  
  
  
@@ -28,11 +28,13 @@ void short_text()
  	{	 
  		int page = 0;		 
  		int sh = 0; 
- 		int line=0; 
+ 		int line=0;
+		int line2=0; 
  		char ch = 0; 
  		int i=0,j=0; 
  		int col=0,row=0; 
- 		int count=0; 
+ 		int count=0;
+		int sec=0; 
  		while(!feof(fp)) // buffer set 
  		{ 
  			fgets(buf_short[row],sizeof(buf_short[row]),fp);			 
@@ -49,27 +51,36 @@ void short_text()
  			refresh(); 
  			printf("\r%s",buf_short[i]); 
  			line+=1; 
- 			if(i%11==10) 
+			line2+=1; 			
+			if(i%11==10) 	//11 lines are in 1 page(i=10)
  			{	 
- 				page++; 
- 				move(line*2,50); 
- 				printw("(%d/%d)",page,(row-1)/11 + 1); 
- 				refresh(); 
- 				 
- 				 
- 
+ 				//page++; 
+ 				//move(line*2,50); 
+ 				//printw("(%d/%d)",page,(row-1)/11 + 1); 
+ 				//refresh(); 
+ 				//This section print number of pages 
+ 				
  
  				line=1; 
  				move(line,0); 
  				count = 0;sh = i-10; 
  				refresh(); 
  				while(sh<=i) 
- 				{ 
+ 				{
+					 
  					ch = getchar(); 
- 					if(ch == ESC) 
- 						return; 
+					sec = stopwatch(1); 					
+					if(ch == ESC) 
+ 						return;
+ 					
  					if(ch == 13 || count+2 == strlen(buf_short[sh])) // enter 
- 					{ 
+ 					{
+						sec = stopwatch(0);
+ 						move(line2*2,50);
+						printw("%d",sec);
+							
+						refresh();
+ 
  						sh++; 
  						line+=2;count=0; 
  						move(line,0); 
@@ -99,16 +110,17 @@ void short_text()
  				} 
  				clear(); 
  				line = 0;	 
- 
+ 				line2 = 0;
+				
  
 			} 
-			else if((i+1) == row) 
-			{ 
- 				page++; 
- 				move(line*2,50); 
- 				printw("(%d/%d)",page,(row-1)/11 + 1); 
-				refresh(); 
-				 
+			else if((i+1) == row) 	
+			{//last page; becauz we don't know how many lines are in this page. 
+ 				//page++; 
+ 				//move(line*2,50); 
+ 				//printw("(%d/%d)",page,(row-1)/11 + 1); 
+				//refresh(); 
+				//This section print number of pages 
  								 
  				 
  				line=1; 
@@ -117,12 +129,17 @@ void short_text()
  				refresh(); 
  				while(sh<(row-1)) 
  				{ 
- 					ch = getchar(); 
+ 					ch = getchar();
+					sec = stopwatch(1); 
  					if(ch == ESC) 
  						return; 
  					if(ch == 13 || count+2 == strlen(buf_short[sh])) // enter 
- 					{ 
- 						sh++; 
+ 					{
+						sec = stopwatch(0);
+ 						move(line2*2,50);
+						printw("%d",sec);	
+						refresh(); 						
+						sh++; 
  						line+=2;count=0; 
 						move(line,0); 
  						printf("\r"); 
