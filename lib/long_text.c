@@ -115,7 +115,7 @@ int long_text(int n)
 			else if((i+1) == row)
 			{
 				page++;
-				move(line*2,50);
+				move(line*2,30);
 				printw("(%d/%d)",page,(row-1)/11 + 1);
 				refresh();
 				

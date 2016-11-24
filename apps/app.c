@@ -12,6 +12,7 @@
 #include"long_text.h"
 #include"short_text.h"
 #include"var.h"
+#include"result_long_text.h"
 #define ESC 0x1b
 
 extern int err;
