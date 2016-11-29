@@ -66,9 +66,9 @@ int main()
 			initscr();
 			clear();
 			refresh();
-			stopwatch(1);
+			//stopwatch(1);
 			short_text();
-			stopwatch(0);
+			//stopwatch(0);
 			printf("time : %s",timerBuffer);
 			endwin();
 		}
