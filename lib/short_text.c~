@@ -21,8 +21,6 @@ void short_text()
  	{ 
  		printf("error 1 \n"); 
  		exit(0); 
- 
- 
  	} 
  	else 
  	{	bool isStart = false;
@@ -47,9 +45,9 @@ void short_text()
  		 
  		for(i=0;i<row;i++) 
  		{ 
- 			move(line,0); 
+ 			move(line,0);
  			refresh(); 
- 			printf("\r%s",buf_short[i]); 
+ 			printf("\r%s",buf_short[i]);
  			line+=1; 
 			line2+=1; 			
 			if(i%11==10) 	//11 lines are in 1 page(i=10)
@@ -60,7 +58,6 @@ void short_text()
  				//refresh(); 
  				//This section print number of pages 
  				
- 
  				line=1; 
  				move(line,0); 
  				count = 0;sh = i-10; 
@@ -77,16 +74,17 @@ void short_text()
 					if(ch == ESC) 
  						return;
  					
- 					if(ch == 13 || count+2 == strlen(buf_short[sh])) // enter 
+ 					if(ch == 13 || count+1 == strlen(buf_short[sh])) // enter 
  					{
+
 						sec = stopwatch(0);
-						
- 						move(line2*2,45);
+						//printf("%d %d",sh+1,row);
+ 						move(23,45);
 						//printw("%d",sec);
 						printw("*time : %2d hour %2d min %2d sec *\n", 							sec / 3600, sec / 60 % 60,sec%60);
 							
 						refresh();
- 
+						
  						sh++; 
  						line+=2;count=0; 
  						move(line,0); 
@@ -98,7 +96,7 @@ void short_text()
  					{ 
  						printf("\b "); 
  						printf("\b"); 
- 						count--; 
+ 						count<=0?count:count--;
  					} 
  					else // print 
  					{	 
@@ -116,11 +114,19 @@ void short_text()
  					} 
  				} 
  				clear(); 
+
+				sec = stopwatch(0);
+				//printf("%d %d",sh+1,row);
+				move(23,45);
+				//printw("%d",sec);
+				printw("*time : %2d hour %2d min %2d sec *\n", 							sec / 3600, sec / 60 % 60,sec%60);
+
  				line = 0;	 
  				line2 = 0;
 				
  
 			} 
+			
 			else if((i+1) == row) 	
 			{//last page; becauz we don't know how many lines are in this page. 
  				//page++; 
@@ -128,12 +134,16 @@ void short_text()
  				//printw("(%d/%d)",page,(row-1)/11 + 1); 
 				//refresh(); 
 				//This section print number of pages 
- 								 
- 				isStart = false; 
- 				line=1; 
- 				move(line,0); 
+				//clear();
+				line=0;
+ 				move(line,0);
+				refresh();
+				line+=1;
+ 				isStart = false;
+ 				move(line,0);
+				refresh();
+				//printw("2");
 				count = 0;sh = i-((row-1)%11); 
- 				refresh(); 
  				while(sh<(row-1)) 
  				{ 
  					ch = getchar();
@@ -145,19 +155,19 @@ void short_text()
  					if(ch == ESC) 
  						return; 
  					if(ch == 13 || count+2 == strlen(buf_short[sh])) // enter 
- 					{
+ 					{	
 						sec = stopwatch(0);
- 						move(line2*2,45);
+ 						move(23,45);
 						printw("*time : %2d hour %2d min %2d sec *\n", 							sec / 3600, sec / 60 % 60,sec%60);
-	
-						refresh(); 
 						
+						refresh();
 						sh++; 
  						line+=2;count=0; 
 						move(line,0); 
  						printf("\r"); 
  						refresh(); 
 						isStart = false;
+						
 					} 
 					else if(ch == 127) // back space 
 					{ 
@@ -167,7 +177,13 @@ void short_text()
 						count--; 
 					} 
 					else // print 
-					{	 
+					{
+						/*
+						printf("%c",ch); 
+						refresh(); 							
+						count++; */
+					
+						 
  						if(buf_short[sh][count]==ch) 
  						{ 
  							printf("%c",ch); 
@@ -178,10 +194,17 @@ void short_text()
  							printf("\033[0;31m%c",ch); 
  							printf("\033[0m"); 
  							count++; 
- 						}  
+ 						}
+						  
  					} 
 				} 
  				clear();
+				sec = stopwatch(0);
+				//printf("%d %d",sh+1,row);
+				move(23,45);
+				//printw("%d",sec);
+				printw("*time : %2d hour %2d min %2d sec *\n", 							sec / 3600, sec / 60 % 60,sec%60);
+
 				line=0;
 				line2=0; 
  			} 
