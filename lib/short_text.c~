@@ -25,7 +25,7 @@ void short_text()
  
  	} 
  	else 
- 	{	 
+ 	{	bool isStart = false;
  		int page = 0;		 
  		int sh = 0; 
  		int line=0;
@@ -69,15 +69,21 @@ void short_text()
  				{
 					 
  					ch = getchar(); 
-					sec = stopwatch(1); 					
+					if (isStart == false)
+					{
+						sec = stopwatch(1);
+						isStart = true;
+					}					
 					if(ch == ESC) 
  						return;
  					
  					if(ch == 13 || count+2 == strlen(buf_short[sh])) // enter 
  					{
 						sec = stopwatch(0);
- 						move(line2*2,50);
-						printw("*time : %2d hour %2d min %2d sec *\n", 							secs / 3600, secs / 60 % 60,secs%60);
+						
+ 						move(line2*2,45);
+						//printw("%d",sec);
+						printw("*time : %2d hour %2d min %2d sec *\n", 							sec / 3600, sec / 60 % 60,sec%60);
 							
 						refresh();
  
@@ -86,6 +92,7 @@ void short_text()
  						move(line,0); 
  						printf("\r"); 
  						refresh(); 
+						isStart = false;
  					} 
  					else if(ch == 127) // back space 
  					{ 
@@ -122,7 +129,7 @@ void short_text()
 				//refresh(); 
 				//This section print number of pages 
  								 
- 				 
+ 				isStart = false; 
  				line=1; 
  				move(line,0); 
 				count = 0;sh = i-((row-1)%11); 
@@ -130,20 +137,27 @@ void short_text()
  				while(sh<(row-1)) 
  				{ 
  					ch = getchar();
-					sec = stopwatch(1); 
+					if (isStart == false)
+					{
+						sec = stopwatch(1);
+						isStart = true;
+					}
  					if(ch == ESC) 
  						return; 
  					if(ch == 13 || count+2 == strlen(buf_short[sh])) // enter 
  					{
 						sec = stopwatch(0);
- 						move(line2*2,50);
-						printw("*time : %2d hour %2d min %2d sec *\n", 							secs / 3600, secs / 60 % 60,secs%60);	
-						refresh(); 						
+ 						move(line2*2,45);
+						printw("*time : %2d hour %2d min %2d sec *\n", 							sec / 3600, sec / 60 % 60,sec%60);
+	
+						refresh(); 
+						
 						sh++; 
  						line+=2;count=0; 
 						move(line,0); 
  						printf("\r"); 
  						refresh(); 
+						isStart = false;
 					} 
 					else if(ch == 127) // back space 
 					{ 
@@ -154,12 +168,22 @@ void short_text()
 					} 
 					else // print 
 					{	 
- 						printf("%c",ch); 
- 						refresh(); 
- 						count++; 
+ 						if(buf_short[sh][count]==ch) 
+ 						{ 
+ 							printf("%c",ch); 
+ 							count++; 
+ 						} 
+ 						else 
+ 						{ 
+ 							printf("\033[0;31m%c",ch); 
+ 							printf("\033[0m"); 
+ 							count++; 
+ 						}  
  					} 
 				} 
- 				clear(); 
+ 				clear();
+				line=0;
+				line2=0; 
  			} 
 
  
