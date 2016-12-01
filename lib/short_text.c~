@@ -6,7 +6,9 @@
 #include<string.h> 
 #include "timer.h" 
  
- 
+extern int err_short;
+extern int acc_short;
+extern int typing_short; 
  
 #define ESC 0x1b 
  
@@ -24,6 +26,7 @@ void short_text()
  	} 
  	else 
  	{	bool isStart = false;
+		bool isWrong = false;
  		int page = 0;		 
  		int sh = 0; 
  		int line=0;
@@ -76,13 +79,25 @@ void short_text()
  					
  					if(ch == 13 || count+1 == strlen(buf_short[sh])) // enter 
  					{
-
+						
 						sec = stopwatch(0);
-						//printf("%d %d",sh+1,row);
+						
+						if( (typing_short-err_short) >0 )
+						{
+							move(22,45);						
+							printw("\r\t*accuracy : %d*\n", ((100*(typing_short- err_short))/typing_short));
+							refresh();
+						}
+						move(23,35);
+						printw("\r\t*TASU : %d*\n",60*(acc_short/sec));
+						refresh();
  						move(23,45);
-						//printw("%d",sec);
-						printw("*time : %2d hour %2d min %2d sec *\n", 							sec / 3600, sec / 60 % 60,sec%60);
-							
+						printw("*time : %2d hour %2d min %2d sec *\n",sec / 3600, sec / 60 % 60,sec%60);
+						
+						acc_short=0;						
+						err_short=0;
+						typing_short=0;
+	
 						refresh();
 						
  						sh++; 
@@ -97,30 +112,51 @@ void short_text()
  						printf("\b "); 
  						printf("\b"); 
  						count<=0?count:count--;
+						if(isWrong == true)
+						{
+							acc_short--;
+						}
+						else
+						{
+							err_short--;
+						}
+						typing_short--;
  					} 
  					else // print 
  					{	 
- 						if(buf_short[sh][count]==ch) 
- 						{ 
+ 						if(buf_short[sh][count]==ch)	//accurate 
+ 						{
+							isWrong = true; 
  							printf("%c",ch); 
- 							count++; 
+ 							count++;
+							acc_short++; 
  						} 
- 						else 
+ 						else 				// error
  						{ 
+							isWrong = false;
  							printf("\033[0;31m%c",ch); 
  							printf("\033[0m"); 
- 							count++; 
- 						} 
+ 							count++;
+							err_short++; 
+ 						}
+						typing_short++; 
  					} 
  				} 
  				clear(); 
 
 				sec = stopwatch(0);
-				//printf("%d %d",sh+1,row);
+				if( (typing_short-err_short) >0 )
+				{
+							move(22,45);						
+							printw("\r\t*accuracy : %d*\n", ((100*(typing_short- err_short))/typing_short));
+							refresh();
+				}
+				move(23,35);
+				printw("\r\t*TASU : %d*\n",60*(acc_short/sec));
+				refresh();
 				move(23,45);
-				//printw("%d",sec);
-				printw("*time : %2d hour %2d min %2d sec *\n", 							sec / 3600, sec / 60 % 60,sec%60);
-
+				printw("*time : %2d hour %2d min %2d sec *\n",sec / 3600, sec / 60 % 60,sec%60);
+				refresh();
  				line = 0;	 
  				line2 = 0;
 				
@@ -140,6 +176,7 @@ void short_text()
 				refresh();
 				line+=1;
  				isStart = false;
+				isWrong = false;
  				move(line,0);
 				refresh();
 				//printw("2");
@@ -157,9 +194,23 @@ void short_text()
  					if(ch == 13 || count+2 == strlen(buf_short[sh])) // enter 
  					{	
 						sec = stopwatch(0);
+												
+						if( (typing_short-err_short) >0 )
+						{
+							move(22,45);						
+							printw("\r\t*accuracy : %d*\n", ((100*(typing_short- err_short))/typing_short));
+							refresh();
+						}
+						move(23,35);
+						printw("\r\t*TASU : %d*\n",60*(acc_short/sec));
+						refresh();
  						move(23,45);
-						printw("*time : %2d hour %2d min %2d sec *\n", 							sec / 3600, sec / 60 % 60,sec%60);
+						printw("*time : %2d hour %2d min %2d sec *\n",sec / 3600, sec / 60 % 60,sec%60);
 						
+						acc_short=0;						
+						err_short=0;
+						typing_short=0;
+
 						refresh();
 						sh++; 
  						line+=2;count=0; 
@@ -175,36 +226,48 @@ void short_text()
  						printf("\b"); 
 						refresh(); 
 						count--; 
+						if(isWrong == true)
+							acc_short--;
+						else
+							err_short--;
+
+						typing_short++;
 					} 
 					else // print 
 					{
-						/*
-						printf("%c",ch); 
-						refresh(); 							
-						count++; */
-					
-						 
+								 
  						if(buf_short[sh][count]==ch) 
  						{ 
+							isWrong = true;
  							printf("%c",ch); 
- 							count++; 
+ 							count++;
+							acc_short++; 
  						} 
  						else 
  						{ 
+							isWrong = false;
  							printf("\033[0;31m%c",ch); 
  							printf("\033[0m"); 
- 							count++; 
+ 							count++;
+							err_short++; 
  						}
-						  
+						typing_short++;  
  					} 
 				} 
  				clear();
 				sec = stopwatch(0);
-				//printf("%d %d",sh+1,row);
+				if( (typing_short-err_short) >0 )
+				{
+							move(22,45);						
+							printw("\r\t*accuracy : %d*\n", ((100*(typing_short- err_short))/typing_short));
+							refresh();
+				}
+				move(23,35);
+				printw("\r\t*TASU : %d*\n",60*(acc_short/sec));
+				refresh();
 				move(23,45);
-				//printw("%d",sec);
-				printw("*time : %2d hour %2d min %2d sec *\n", 							sec / 3600, sec / 60 % 60,sec%60);
-
+				printw("*time : %2d hour %2d min %2d sec *\n",sec / 3600, sec / 60 % 60,sec%60);
+				refresh();
 				line=0;
 				line2=0; 
  			} 
