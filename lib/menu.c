@@ -2,11 +2,10 @@
 #include<stdlib.h>
 #include<termio.h>
 #include"getch_.h"
+#include"var.h"
 #define ESC 0x1b
 int menu()
 {
-	char longtxt[2][33] = {"*  -> 1. long text            *\n", "*     1. long text            *\n"};
-	char shorttxt[2][33] ={"*  -> 2. short text           *\n", "*     2. short text           *\n"};
 	int lt=0,st=1;
 	unsigned char n;
 	printf("\n\t\t\t*******************************\n\t\t\t*  ENGLISH PRATICE OF TYPING  *\n");

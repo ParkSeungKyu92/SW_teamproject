@@ -4,19 +4,16 @@
 #include<curses.h>
 #include<signal.h>
 #include<string.h>
-
+#include"var.h"
 
 #define ESC 0x1b
 
 char buf[500][100] = {0,};
 
-extern int acc;
-extern int err;
-extern int typing;
+
 int long_text(int n)
 {
-	char name[6][50] = {"Gulliver's Travels.txt", "Narcissus.txt","Rapunzel.txt"
-	,"The Elves and the Shoemaker.txt", "The Selfish Giant.txt", "The Wind and the Sun.txt"};
+	
 	FILE *fp = fopen(name[n],"r");
 	if(fp == NULL)
 	{

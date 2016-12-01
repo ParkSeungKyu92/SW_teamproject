@@ -1,11 +1,9 @@
 #include<stdio.h>
 #include"getch_.h"
+#include"var.h"
 int menu_long()
 {
 	int i=0;
-	char name[6][40] = {"Gulliver's Travels           *\n", "Narcissus                    *\n","Rapunzel                     *\n"
-	,"The Elves and the Shoemaker  *\n", "The Selfish Giant            *\n", "The Wind and the Sun         *\n"};
-	char ch[] = "->";
 	char n;
 	char cnt = 0;
 	system("clear");
@@ -15,11 +13,11 @@ int menu_long()
 	{
 		if(cnt==i)
 		{
-			printf("\t\t\t* %s %d. %s",ch,i+1,name[i]);
+			printf("\t\t\t* %s %d. %s",arrow,i+1,long_menu[i]);
 		}
 		else
 		{
-			printf("\t\t\t*    %d. %s",i+1,name[i]);
+			printf("\t\t\t*    %d. %s",i+1,long_menu[i]);
 		}
 	}
 	printf("\t\t\t**************************************\n");
@@ -47,11 +45,11 @@ int menu_long()
 			{
 				if(cnt==i)
 				{
-					printf("\t\t\t* %s %d. %s",ch,i+1,name[i]);
+					printf("\t\t\t* %s %d. %s",arrow,i+1,long_menu[i]);
 				}
 				else
 				{
-					printf("\t\t\t*    %d. %s",i+1,name[i]);
+					printf("\t\t\t*    %d. %s",i+1,long_menu[i]);
 				}
 			}
 			printf("\t\t\t**************************************\n");
@@ -67,11 +65,11 @@ int menu_long()
 			{
 				if(cnt==i)
 				{
-					printf("\t\t\t* %s %d. %s",ch,i+1,name[i]);
+					printf("\t\t\t* %s %d. %s",arrow,i+1,long_menu[i]);
 				}
 				else
 				{
-					printf("\t\t\t*    %d. %s",i+1,name[i]);
+					printf("\t\t\t*    %d. %s",i+1,long_menu[i]);
 				}
 			}
 			printf("\t\t\t**************************************\n");

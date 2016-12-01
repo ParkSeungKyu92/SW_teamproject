@@ -15,12 +15,17 @@
 #include"result_long_text.h"
 #define ESC 0x1b
 
-extern int err;
-extern int acc;
-extern int typing;
-char name[6][30] = {"Gulliver's Travels", "Narcissus","Rapunzel"
-			,"The Elves and the Shoemaker", "The Selfish Giant", "The Wind and the Sun"};
-char ch[] = "->";
+int err;
+int acc;
+int typing;
+char name[6][50] = {"../textfile/Gulliver's Travels.txt", "../textfile/Narcissus.txt","../textfile/Rapunzel.txt"
+	,"../textfile/The Elves and the Shoemaker.txt", "../textfile/The Selfish Giant.txt", "../textfile/The Wind and the Sun.txt"};
+char arrow[3] = "->";
+char longtxt[2][33] = {"*  -> 1. long text            *\n", "*     1. long text            *\n"};
+char shorttxt[2][33] ={"*  -> 2. short text           *\n", "*     2. short text           *\n"};
+char long_menu[6][40] = {"Gulliver's Travels           *\n", "Narcissus                    *\n","Rapunzel                     *\n"
+	,"The Elves and the Shoemaker  *\n", "The Selfish Giant            *\n", "The Wind and the Sun         *\n"};
+
 
 int main()
 {
